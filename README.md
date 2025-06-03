@@ -1,12 +1,32 @@
-# React + Vite
+# 🧭 Dijkstra Pathfinding Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based visualization tool for **Dijkstra's Algorithm**, allowing users to explore how the shortest path algorithm works step-by-step on a 2D grid.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Visualize Dijkstra's algorithm step-by-step
+- Barrier (wall) support
+- Start and End node configuration
+- Visited nodes and shortest path highlighting
+- Controls to start, pause, resume, and reset
+- Responsive UI built with Tailwind CSS
 
-## Expanding the ESLint configuration
+## 📸 Demo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![Dijkstra Visualizer Demo](demo.gif) <!-- Optional: add a gif or screenshot -->
+
+## 🛠️ Tech Stack
+
+- **React.js** (with Hooks and Functional Components)
+- **Tailwind CSS**
+- Pure JavaScript for pathfinding logic
+
+---
+
+## 📦 Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/your-username/dijkstra-visualizer.git
+cd dijkstra-visualizer
