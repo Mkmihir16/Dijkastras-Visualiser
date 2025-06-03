@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Play, Pause, RotateCcw, Zap, Settings, Info } from "lucide-react";
+import { gsap } from "gsap";
 
 const ROWS = 15;
 const COLS = 25;
@@ -28,6 +29,8 @@ const App = () => {
   const timeoutRef = useRef(null);
   const startTimeRef = useRef(null);
   const isRunningRef = useRef(false);
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
 
   const initializeGrid = useCallback(() => {
     const initialGrid = Array.from({ length: ROWS }, (_, i) =>
@@ -54,6 +57,64 @@ const App = () => {
     setVisitedNodes([]);
     setStats({ pathLength: 0, nodesVisited: 0, timeElapsed: 0 });
   }, [initializeGrid]);
+
+  // GSAP Animation for heading
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    // Split title into individual characters for animation
+    if (titleRef.current) {
+      const titleText = titleRef.current.textContent;
+      titleRef.current.innerHTML = titleText
+        .split('')
+        .map((char, i) => `<span key="${i}" class="inline-block">${char === ' ' ? '&nbsp;' : char}</span>`)
+        .join('');
+      
+      const titleChars = titleRef.current.querySelectorAll('span');
+      
+      tl.set(titleChars, { opacity: 0, y: 50, rotationX: -90 })
+        .set(subtitleRef.current, { opacity: 0, y: 30 })
+        .to(titleChars, {
+          duration: 0.8,
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          stagger: 0.05,
+          ease: "back.out(1.7)"
+        })
+        .to(subtitleRef.current, {
+          duration: 0.6,
+          opacity: 1,
+          y: 0,
+          ease: "power2.out"
+        }, "-=0.3")
+        .to(titleRef.current, {
+          duration: 2,
+          backgroundPosition: "200% center",
+          ease: "none",
+          repeat: -1
+        });
+    }
+
+    // Floating animation for the title
+    gsap.to(titleRef.current, {
+      y: -10,
+      duration: 2,
+      ease: "power2.inOut",
+      yoyo: true,
+      repeat: -1
+    });
+
+    // Pulsing glow effect
+    gsap.to(titleRef.current, {
+      filter: "drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))",
+      duration: 1.5,
+      ease: "power2.inOut",
+      yoyo: true,
+      repeat: -1
+    });
+
+  }, []);
 
   const sleep = (ms) => new Promise(resolve => {
     timeoutRef.current = setTimeout(resolve, ms);
@@ -290,10 +351,22 @@ const App = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-white mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 
+            ref={titleRef}
+            className="text-5xl font-bold text-white mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+            style={{ 
+              backgroundSize: '200% 100%',
+              backgroundPosition: '0% center'
+            }}
+          >
             Dijkstra's Algorithm Visualizer
           </h1>
-          <p className="text-gray-300 text-lg">Watch the shortest path algorithm in action</p>
+          <p 
+            ref={subtitleRef}
+            className="text-gray-300 text-lg"
+          >
+            Watch the shortest path algorithm in action
+          </p>
         </div>
 
         {/* Controls */}
